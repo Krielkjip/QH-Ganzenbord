@@ -18,15 +18,27 @@ def clear():
     os.system("cls")
 
 
-def drawboard():
+def draw_board():
+    something = False
     tiles_per_column = 20
+    space = 20
 
     for x in range(1, tiles_per_column + 1):
         for y in range(x, tiles_amount + 1, tiles_per_column):
+            total_name_len = 0
             print(f"{y:2}", end=":")
             for item in players_data:
                 if item[0] == y:
                     print(item[1], end=" ")
+                    total_name_len += len(item[1]) + 1
+                    something = True
+            if something:
+                for i in range(0, space - total_name_len):
+                    print(" ", end="")
+            else:
+                for i in range(0, space):
+                    print(" ", end="")
+
         print()
 
 
@@ -78,6 +90,7 @@ while run:
                 clear()
                 drawline()
                 print("Enter player", x + 1, "name")
+                print("Max amount off characters is 8")
                 drawline()
                 name = input("# ")
                 if name == "":
@@ -87,8 +100,15 @@ while run:
                     drawline()
                     input("> ")
                 else:
-                    x += 1
-                    players_data.append([1, name])
+                    if len(name) > 8:
+                        clear()
+                        drawline()
+                        print("Name must be less than 8 characters")
+                        drawline()
+                        input("> ")
+                    else:
+                        x += 1
+                        players_data.append([1, name])
             print(players_data)
 
         elif dest == "2":
@@ -105,7 +125,7 @@ while run:
     while game:
         clear()
         drawline()
-        drawboard()
+        draw_board()
         drawline()
         print("0 - Quit Game")
         drawline()
