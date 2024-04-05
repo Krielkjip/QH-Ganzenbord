@@ -7,6 +7,7 @@ game = False
 
 tiles_amount = 63
 players_amount = 2
+players_data = []
 
 
 def drawline():
@@ -15,6 +16,18 @@ def drawline():
 
 def clear():
     os.system("cls")
+
+
+def drawboard():
+    tiles_per_column = 20
+
+    for x in range(1, tiles_per_column + 1):
+        for y in range(x, tiles_amount + 1, tiles_per_column):
+            print(f"{y:2}", end=":")
+            for item in players_data:
+                if item[0] == y:
+                    print(item[1], end=" ")
+        print()
 
 
 while run:
@@ -59,6 +72,25 @@ while run:
         elif dest == "1":
             settings_menu = False
             game = True
+            # player_data = create_player_list_data(players_amount)
+            x = 0
+            while x < players_amount:
+                clear()
+                drawline()
+                print("Enter player", x + 1, "name")
+                drawline()
+                name = input("# ")
+                if name == "":
+                    clear()
+                    drawline()
+                    print("Please enter something")
+                    drawline()
+                    input("> ")
+                else:
+                    x += 1
+                    players_data.append([1, name])
+            print(players_data)
+
         elif dest == "2":
             pass
         elif dest == "3":
@@ -72,6 +104,8 @@ while run:
 
     while game:
         clear()
+        drawline()
+        drawboard()
         drawline()
         print("0 - Quit Game")
         drawline()
