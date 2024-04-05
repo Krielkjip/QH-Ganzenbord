@@ -1,4 +1,5 @@
 import os
+import random
 
 run = True
 main_menu = True
@@ -8,10 +9,15 @@ game = False
 tiles_amount = 63
 players_amount = 2
 players_data = []
+current_player = 0
 
 
 def drawline():
     print("Xx------------------------------xX")
+
+
+def drawlinelong():
+    print("Xx------------------------------------------------------------------------------------------xX")
 
 
 def clear():
@@ -124,19 +130,36 @@ while run:
 
     while game:
         clear()
-        drawline()
+        drawlinelong()
         draw_board()
+        drawlinelong()
+        print("Current player:", players_data[current_player][1])
         drawline()
         print("0 - Quit Game")
+        print("1 - Roll dice")
         drawline()
         dest = input("# ")
 
         if dest == "0":
             game = False
             main_menu = True
+        elif dest == "1":
+            dice_roll = random.randint(1, 6)
+            clear()
+            drawline()
+            print(players_data[current_player][1], "rolled a dice")
+            print(players_data[current_player][1], "rolled", dice_roll)
+            print(players_data[current_player][1], "moved", dice_roll)
+            drawline()
+            input("> ")
+            players_data[current_player][0] += dice_roll
+            if current_player == players_amount - 1:
+                current_player = 0
+            else:
+                current_player += 1
         else:
             clear()
             drawline()
-            print("False input please enter 0")
+            print("False input please enter 0 or 1")
             drawline()
             input("> ")
