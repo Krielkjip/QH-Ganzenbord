@@ -6,8 +6,8 @@ main_menu = True
 settings_menu = False
 game = False
 
-tiles_amount = 20
-players_amount = 2
+tiles_amount = 100
+players_amount = 3
 players_data = []
 current_player = 0
 
@@ -22,12 +22,23 @@ def drawdice():
     print("  \\/_____()/   ")
 
 
+def draw2dice():
+    print("    _______         _______    ")
+    print("  /\\       \\      /\\       \\   ")
+    print(" /()\\   ()  \\    /()\\   ()  \\  ")
+    print("/    \\_______\\  /    \\_______\\ ")
+    print("\\    /()     /  \\    /()     / ")
+    print(" \\()/   ()  /    \\()/   ()  /  ")
+    print("  \\/_____()/      \\/_____()/   ")
+
+
 def drawline():
     print("Xx------------------------------xX")
 
 
 def drawlinelong():
-    print("Xx------------------------------------------------------------------------------------------xX")
+    print(
+        "Xx---------------------------------------------------------------------------------------------------------xX")
 
 
 def clear():
@@ -42,7 +53,7 @@ def draw_board():
     for x in range(1, tiles_per_column + 1):
         for y in range(x, tiles_amount + 1, tiles_per_column):
             total_name_len = 0
-            print(f"{y:2}", end=":")
+            print(f"{y:3}", end=":")
             for player in players_data:
                 if player[0] == y:
                     print(player[1], end=" ")
@@ -86,11 +97,12 @@ while run:
         print("Settings Menu")
         drawline()
         print("Current amount of players:", players_amount)
+        print("Current amount of tiles", tiles_amount)
         drawline()
         print("0 - Back to main menu")
         print("1 - Start Game")
-        print("2 - Change player amount")
-        print("3 - Change tiles amount")
+        print("2 - Change amount of players")
+        print("3 - Change amount of tiles")
         drawline()
         dest = input("# ")
 
@@ -133,14 +145,85 @@ while run:
                                 input("> ")
                                 correct_name = False
                         if correct_name:
-                            i += 1
-                            players_data.append([1, name])
+                            while True:
+                                clear()
+                                drawline()
+                                print(name, "enter your lucky number")
+                                drawline()
+                                dest = input("# ")
+                                try:
+                                    lucky_number = int(dest)
+                                    if lucky_number <= 0 or lucky_number >= tiles_amount:
+                                        clear()
+                                        drawline()
+                                        print("Lucky number must be higher than 0 and less than", tiles_amount)
+                                        drawline()
+                                        input("> ")
+                                    else:
+                                        i += 1
+                                        players_data.append([1, name, lucky_number])
+                                        print(players_data)
+                                        break
+                                except ValueError:
+                                    clear()
+                                    drawline()
+                                    print("Please enter a number")
+                                    drawline()
+                                    input("> ")
             print(players_data)
 
         elif dest == "2":
-            pass
+            while True:
+                clear()
+                drawline()
+                print("Minium amount of players is 2")
+                print("Maximum amount of players is 4")
+                drawline()
+                print("Enter new player amount:")
+                dest = input("# ")
+                try:
+                    number = int(dest)
+                    if number < 2 or number > 4:
+                        clear()
+                        drawline()
+                        print("Amount of players must be between 2 and 4")
+                        drawline()
+                        input("> ")
+                    else:
+                        players_amount = number
+                        break
+                except ValueError:
+                    clear()
+                    drawline()
+                    print("Please enter a number")
+                    drawline()
+                    input("> ")
         elif dest == "3":
-            pass
+            while True:
+                clear()
+                drawline()
+                print("Minium amount of tiles 20")
+                print("Maximum amount of tiles 100")
+                drawline()
+                print("Enter new amount of tiles:")
+                dest = input("# ")
+                try:
+                    number = int(dest)
+                    if number < 20 or number > 100:
+                        clear()
+                        drawline()
+                        print("Amount of tiles must be between 20 and 100")
+                        drawline()
+                        input("> ")
+                    else:
+                        tiles_amount = number
+                        break
+                except ValueError:
+                    clear()
+                    drawline()
+                    print("Please enter a number")
+                    drawline()
+                    input("> ")
         else:
             clear()
             drawline()
@@ -148,6 +231,7 @@ while run:
             drawline()
             input("> ")
 
+    current_player_amount = players_amount
     while game:
         clear()
         drawlinelong()
@@ -200,26 +284,23 @@ while run:
                 main_menu = True
                 players_data = []
 
-            if current_player == players_amount - 1:
+            if current_player >= current_player_amount - 1:
                 current_player = 0
             else:
                 current_player += 1
         elif dest == "2":
-            if current_player == players_amount - 1:
-                winner = 0
-            else:
-                winner = 1
-
             clear()
             drawline()
             print(players_data[current_player][1], "has given up")
-            print(players_data[current_player][1], "has lost")
-            print(players_data[winner][1], "wins")
+            print(players_data[current_player][1], "is out of the game")
             drawline()
             input("> ")
-            game = False
-            main_menu = True
-            players_data = []
+            print(players_data)
+            del players_data[current_player]
+            print(players_data)
+            current_player_amount -= 1
+            if current_player > current_player_amount - 1:
+                current_player -= 1
         else:
             clear()
             drawline()
