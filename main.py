@@ -6,7 +6,7 @@ main_menu = True
 settings_menu = False
 game = False
 
-tiles_amount = 63
+tiles_amount = 20
 players_amount = 2
 players_data = []
 current_player = 0
@@ -14,12 +14,12 @@ current_player = 0
 
 def drawdice():
     print("    _______    ")
-    print("  /\       \   ")
-    print(" /()\   ()  \  ")
-    print("/    \_______\ ")
-    print("\    /()     / ")
-    print(" \()/   ()  /  ")
-    print("  \/_____()/   ")
+    print("  /\\       \\   ")
+    print(" /()\\   ()  \\  ")
+    print("/    \\_______\\ ")
+    print("\\    /()     / ")
+    print(" \\()/   ()  /  ")
+    print("  \\/_____()/   ")
 
 
 def drawline():
