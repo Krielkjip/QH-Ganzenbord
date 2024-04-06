@@ -6,6 +6,7 @@ main_menu = True
 settings_menu = False
 game = False
 new_game_menu = False
+double_trouble = True
 
 tiles_amount = 63
 players_amount = 2
@@ -170,11 +171,16 @@ while run:
         drawline()
         print("Current amount of players:", players_amount)
         print("Current amount of tiles", tiles_amount)
+        if double_trouble:
+            print("Double Trouble in turned on")
+        else:
+            print("Double Trouble is turned off")
         drawline()
         print("0 - Back to main menu")
         print("1 - Start Game")
         print("2 - Change amount of players")
         print("3 - Change amount of tiles")
+        print("4 - Double Trouble on <-> off")
         drawline()
         dest = input("# ")
 
@@ -296,10 +302,32 @@ while run:
                     print("Please enter a number")
                     drawline()
                     input("> ")
+        elif dest == "4":
+            while True:
+                clear()
+                drawline()
+                print("1 - Turn Double Trouble on")
+                print("2 - Turn Double Trouble off")
+                drawline()
+                dest = input("# ")
+
+                if dest == "1":
+                    double_trouble = True
+                    break
+                elif dest == "2":
+                    double_trouble = False
+                    break
+                else:
+                    clear()
+                    drawline()
+                    print("Please enter 1 or 2")
+                    drawline()
+                    input("> ")
+
         else:
             clear()
             drawline()
-            print("False input please enter 0, 1, 2, or 3")
+            print("False input please enter 0, 1, 2, 3 or 4")
             drawline()
             input("> ")
 
