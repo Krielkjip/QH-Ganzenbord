@@ -46,7 +46,7 @@ def draw2dice():
 
 
 def drawline():
-    print("Xx------------------------------xX")
+    print("Xx----------------------------------------xX")
 
 
 def drawlinelong():
@@ -88,29 +88,28 @@ def roll_dice(players_data):
     current_player_lucky_number = players_data[current_player][2]
     if next_loc > tiles_amount:
         clear()
-        drawdice()
+        draw2dice()
         drawline()
         print(players_data[current_player][1], "rolled a dice")
         print(players_data[current_player][1], "rolled", dice_roll)
         print(players_data[current_player][1], "moved to far and got thrown back")
-        print(players_data[current_player][1], "moved to", tiles_amount - next_loc % tiles_amount)
+        print(players_data[current_player][1], "moved from", players_data[current_player][0], "to",
+              tiles_amount - next_loc % tiles_amount)
         drawline()
         input("> ")
         players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
     else:
         clear()
-        drawdice()
+        draw2dice()
         drawline()
         print(players_data[current_player][1], "rolled a dice")
         print(players_data[current_player][1], "rolled", dice_roll)
-        print(players_data[current_player][1], "moved to", next_loc)
+        print(players_data[current_player][1], "moved from", players_data[current_player][0], "to", next_loc)
         drawline()
         input("> ")
         players_data[current_player][0] += dice_roll
     if players_data[current_player][0] == current_player_lucky_number:
         next_loc = players_data[current_player][0] + dice_roll
-        clear()
-        drawline()
         if next_loc > tiles_amount:
             clear()
             drawline()
@@ -118,7 +117,8 @@ def roll_dice(players_data):
             print("That is", players_data[current_player][1], "lucky number")
             print(players_data[current_player][1], "moved another", dice_roll)
             print(players_data[current_player][1], "moved to far and got thrown back")
-            print(players_data[current_player][1], "moved to", tiles_amount - next_loc % tiles_amount)
+            print(players_data[current_player][1], "moved from", players_data[current_player][0], "to",
+                  tiles_amount - next_loc % tiles_amount)
             drawline()
             input("> ")
             players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
@@ -128,7 +128,7 @@ def roll_dice(players_data):
             print(players_data[current_player][1], "landed on", players_data[current_player][0])
             print("That is", players_data[current_player][1], "lucky number")
             print(players_data[current_player][1], "moved another", dice_roll)
-            print(players_data[current_player][1], "moved to", next_loc)
+            print(players_data[current_player][1], "moved from", players_data[current_player][0], "to", next_loc)
             drawline()
             input("> ")
             players_data[current_player][0] += dice_roll
@@ -139,9 +139,82 @@ def roll_dice(players_data):
         print(players_data[current_player][1], "HAS WON!")
         drawline()
         input("> ")
-        return True
+        return 1
     else:
-        return False
+        return 0
+
+
+def double_trouble_roll_dice(players_data):
+    dice_roll1 = random.randint(1, 6)
+    dice_roll2 = random.randint(1, 6)
+    dice_total = dice_roll1 + dice_roll2
+    next_loc = players_data[current_player][0] + dice_total
+    current_player_lucky_number = players_data[current_player][2]
+    if dice_roll1 == dice_roll2:
+        clear()
+        drawline()
+        print(players_data[current_player][1], "rolled 2 dices")
+        print("Both Dices rolled", dice_roll1)
+        print(players_data[current_player][1], "has been disqualified")
+        drawline()
+        input("> ")
+        return 2
+    else:
+        if next_loc > tiles_amount:
+            clear()
+            draw2dice()
+            drawline()
+            print(players_data[current_player][1], "rolled 2 dices")
+            print(players_data[current_player][1], "rolled", dice_roll1, "and", dice_roll2)
+            print(players_data[current_player][1], "moved to far and got thrown back")
+            print(players_data[current_player][1], "moved from", players_data[current_player][0], "to",
+                  tiles_amount - next_loc % tiles_amount)
+            drawline()
+            input("> ")
+            players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
+        else:
+            clear()
+            draw2dice()
+            drawline()
+            print(players_data[current_player][1], "rolled 2 dices")
+            print(players_data[current_player][1], "rolled", dice_roll1, "and", dice_roll2)
+            print(players_data[current_player][1], "moved from", players_data[current_player][0], "to", next_loc)
+            drawline()
+            input("> ")
+            players_data[current_player][0] += dice_total
+        if players_data[current_player][0] == current_player_lucky_number:
+            next_loc = players_data[current_player][0] + dice_total
+            if next_loc > tiles_amount:
+                clear()
+                drawline()
+                print(players_data[current_player][1], "landed on", players_data[current_player][0])
+                print("That is", players_data[current_player][1], "lucky number")
+                print(players_data[current_player][1], "moved another", dice_total)
+                print(players_data[current_player][1], "moved to far and got thrown back")
+                print(players_data[current_player][1], "moved to", tiles_amount - next_loc % tiles_amount)
+                drawline()
+                input("> ")
+                players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
+            else:
+                clear()
+                drawline()
+                print(players_data[current_player][1], "landed on", players_data[current_player][0])
+                print("That is", players_data[current_player][1], "lucky number")
+                print(players_data[current_player][1], "moved another", dice_total)
+                print(players_data[current_player][1], "moved to", next_loc)
+                drawline()
+                input("> ")
+                players_data[current_player][0] += dice_total
+
+        if next_loc == tiles_amount:
+            clear()
+            drawline()
+            print(players_data[current_player][1], "HAS WON!")
+            drawline()
+            input("> ")
+            return 1
+        else:
+            return 0
 
 
 while run:
@@ -227,14 +300,15 @@ while run:
                                 clear()
                                 drawline()
                                 print(name, "enter your lucky number")
+                                print("Lucky number must be higher than 1 and less than", tiles_amount)
                                 drawline()
                                 dest = input("# ")
                                 try:
                                     lucky_number = int(dest)
-                                    if lucky_number <= 0 or lucky_number >= tiles_amount:
+                                    if lucky_number <= 1 or lucky_number >= tiles_amount:
                                         clear()
                                         drawline()
-                                        print("Lucky number must be higher than 0 and less than", tiles_amount)
+                                        print("Lucky number must be higher than 1 and less than", tiles_amount)
                                         drawline()
                                         input("> ")
                                     else:
@@ -257,7 +331,6 @@ while run:
                 print("Minium amount of players is 2")
                 print("Maximum amount of players is 4")
                 drawline()
-                print("Enter new player amount:")
                 dest = input("# ")
                 try:
                     number = int(dest)
@@ -283,7 +356,6 @@ while run:
                 print("Minium amount of tiles 20")
                 print("Maximum amount of tiles 100")
                 drawline()
-                print("Enter new amount of tiles:")
                 dest = input("# ")
                 try:
                     number = int(dest)
@@ -333,6 +405,7 @@ while run:
 
     current_player_amount = players_amount
     while game:
+        print(players_data)
         clear()
         drawlinelong()
         draw_board()
@@ -351,11 +424,31 @@ while run:
             main_menu = True
             players_data = []
         elif dest == "1":
-            game_over = roll_dice(players_data)
-            if game_over:
+            if double_trouble:
+                game_over = double_trouble_roll_dice(players_data)
+            else:
+                game_over = roll_dice(players_data)
+            print(game_over)
+            if game_over == 1:
                 game = False
                 new_game_menu = True
                 players_data = []
+            elif game_over == 2:
+                del players_data[current_player]
+                current_player -= 1
+                current_player_amount -= 1
+                if current_player > current_player_amount - 1:
+                    current_player = 0
+
+                if not players_data:
+                    clear()
+                    drawline()
+                    print("Game Over")
+                    print("All players have been disqualified")
+                    drawline()
+                    input("> ")
+                    game = False
+                    new_game_menu = True
             if current_player >= current_player_amount - 1:
                 current_player = 0
             else:
@@ -367,9 +460,7 @@ while run:
             print(players_data[current_player][1], "is out of the game")
             drawline()
             input("> ")
-            print(players_data)
             del players_data[current_player]
-            print(players_data)
             current_player_amount -= 1
             if current_player > current_player_amount - 1:
                 current_player -= 1

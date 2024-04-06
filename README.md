@@ -1,5 +1,7 @@
 # Ganzenbord Todo Lijst
 
+# vraag geluksgetal player input ook goed als random
+
 ## Basisvariant
 
 - [x] Maak een bord met 63 vakjes.
@@ -15,7 +17,7 @@
 
 - [ ] In de put op vakje ...
 - [ ] De doornstruik op vakje ... (gaat terug naar ...)
-- [ ] Double trouble
+- [x] Double trouble
 - [ ] Marathon
 - [ ] Meer vreugd
 
