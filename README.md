@@ -7,7 +7,7 @@
 - [x] Spelers rollen om beurten de dobbelsteen.
 - [x] Controleer of de invoer geldig is (alleen "rol" of "opgeven" toegestaan).
 - [x] Bereken de stappen en update de positie van de speler.
-- [ ] Controleer of een speler op geluksgetal staat en laat deze nogmaals rollen.
+- [x] Controleer of een speler op geluksgetal staat en laat deze nogmaals rollen.
 - [x] Bepaal de winnaar en kondig deze aan.
 - [x] Vraag de gebruiker of deze opnieuw wil spelen of het programma wil sluiten.
 

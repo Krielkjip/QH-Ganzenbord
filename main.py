@@ -7,14 +7,25 @@ settings_menu = False
 game = False
 new_game_menu = False
 
-tiles_amount = 10
+tiles_amount = 11
 players_amount = 2
 players_data = []
 current_player = 0
 
 
+def draw_title():
+    print("Xx--------------------------------------------------------xX")
+    print("x   _____                           _                   _  x")
+    print("|  / ____|                         | |                 | | |")
+    print("| | |  __  __ _ _ __  _______ _ __ | |__   ___  _ __ __| | |")
+    print("| | | |_ |/ _` | '_ \|_  / _ \ '_ \| '_ \ / _ \| '__/ _` | |")
+    print("| | |__| | (_| | | | |/ /  __/ | | | |_) | (_) | | | (_| | |")
+    print("x  \_____|\__,_|_| |_/___\___|_| |_|_.__/ \___/|_|  \__,_| x")
+    print("Xx--------------------------------------------------------xX")
+
+
 def drawdice():
-    print("    _______    ")
+    print("   ________    ")
     print("  /\\       \\   ")
     print(" /()\\   ()  \\  ")
     print("/    \\_______\\ ")
@@ -73,7 +84,7 @@ def draw_board():
 def roll_dice(players_data):
     dice_roll = random.randint(1, 6)
     next_loc = players_data[current_player][0] + dice_roll
-    # current_player_lucky_number = players_data[current_player][2]
+    current_player_lucky_number = players_data[current_player][2]
     if next_loc > tiles_amount:
         clear()
         drawdice()
@@ -95,6 +106,32 @@ def roll_dice(players_data):
         drawline()
         input("> ")
         players_data[current_player][0] += dice_roll
+    if players_data[current_player][0] == current_player_lucky_number:
+        next_loc = players_data[current_player][0] + dice_roll
+        clear()
+        drawline()
+        if next_loc > tiles_amount:
+            clear()
+            drawline()
+            print(players_data[current_player][1], "landed on", players_data[current_player][0])
+            print("That is", players_data[current_player][1], "lucky number")
+            print(players_data[current_player][1], "moved another", dice_roll)
+            print(players_data[current_player][1], "moved to far and got thrown back")
+            print(players_data[current_player][1], "moved to", tiles_amount - next_loc % tiles_amount)
+            drawline()
+            input("> ")
+            players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
+        else:
+            clear()
+            drawline()
+            print(players_data[current_player][1], "landed on", players_data[current_player][0])
+            print("That is", players_data[current_player][1], "lucky number")
+            print(players_data[current_player][1], "moved another", dice_roll)
+            print(players_data[current_player][1], "moved to", next_loc)
+            drawline()
+            input("> ")
+            players_data[current_player][0] += dice_roll
+
     if next_loc == tiles_amount:
         clear()
         drawline()
@@ -109,9 +146,7 @@ def roll_dice(players_data):
 while run:
     while main_menu:
         clear()
-        drawline()
-        print("            GANZENBORD")
-        drawline()
+        draw_title()
         print("0 - Quit Game")
         print("1 - Start Game")
         drawline()
@@ -330,9 +365,7 @@ while run:
 
     while new_game_menu:
         clear()
-        drawline()
-        print("            GANZENBORD")
-        drawline()
+        draw_title()
         print("0 - Quit Game")
         print("1 - Start New Game")
         drawline()
