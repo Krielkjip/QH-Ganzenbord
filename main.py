@@ -5,9 +5,10 @@ run = True
 main_menu = True
 settings_menu = False
 game = False
+new_game_menu = False
 
-tiles_amount = 100
-players_amount = 3
+tiles_amount = 10
+players_amount = 2
 players_data = []
 current_player = 0
 
@@ -69,6 +70,42 @@ def draw_board():
         print()
 
 
+def roll_dice(players_data):
+    dice_roll = random.randint(1, 6)
+    next_loc = players_data[current_player][0] + dice_roll
+    # current_player_lucky_number = players_data[current_player][2]
+    if next_loc > tiles_amount:
+        clear()
+        drawdice()
+        drawline()
+        print(players_data[current_player][1], "rolled a dice")
+        print(players_data[current_player][1], "rolled", dice_roll)
+        print(players_data[current_player][1], "moved to far and got thrown back")
+        print(players_data[current_player][1], "moved to", tiles_amount - next_loc % tiles_amount)
+        drawline()
+        input("> ")
+        players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
+    else:
+        clear()
+        drawdice()
+        drawline()
+        print(players_data[current_player][1], "rolled a dice")
+        print(players_data[current_player][1], "rolled", dice_roll)
+        print(players_data[current_player][1], "moved to", next_loc)
+        drawline()
+        input("> ")
+        players_data[current_player][0] += dice_roll
+    if next_loc == tiles_amount:
+        clear()
+        drawline()
+        print(players_data[current_player][1], "HAS WON!")
+        drawline()
+        input("> ")
+        return True
+    else:
+        return False
+
+
 while run:
     while main_menu:
         clear()
@@ -119,7 +156,7 @@ while run:
                 clear()
                 drawline()
                 print("Enter player", i + 1, "name")
-                print("Max amount off characters is 8")
+                print("Max amount off characters is 4")
                 drawline()
                 name = input("# ")
                 if name == "":
@@ -129,10 +166,10 @@ while run:
                     drawline()
                     input("> ")
                 else:
-                    if len(name) > 8:
+                    if len(name) > 4:
                         clear()
                         drawline()
-                        print("Name must be less than 8 characters")
+                        print("Name must be less than 4 characters")
                         drawline()
                         input("> ")
                     else:
@@ -251,39 +288,11 @@ while run:
             main_menu = True
             players_data = []
         elif dest == "1":
-            dice_roll = random.randint(1, 6)
-            next_loc = players_data[current_player][0] + dice_roll
-            if next_loc > tiles_amount:
-                clear()
-                drawdice()
-                drawline()
-                print(players_data[current_player][1], "rolled a dice")
-                print(players_data[current_player][1], "rolled", dice_roll)
-                print(players_data[current_player][1], "moved to far and got thrown back")
-                print(players_data[current_player][1], "moved to", tiles_amount - next_loc % tiles_amount)
-                drawline()
-                input("> ")
-                players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
-            else:
-                clear()
-                drawdice()
-                drawline()
-                print(players_data[current_player][1], "rolled a dice")
-                print(players_data[current_player][1], "rolled", dice_roll)
-                print(players_data[current_player][1], "moved to", next_loc)
-                drawline()
-                input("> ")
-                players_data[current_player][0] += dice_roll
-            if next_loc == tiles_amount:
-                clear()
-                drawline()
-                print(players_data[current_player][1], "HAS WON!")
-                drawline()
-                input("> ")
+            game_over = roll_dice(players_data)
+            if game_over:
                 game = False
-                main_menu = True
+                new_game_menu = True
                 players_data = []
-
             if current_player >= current_player_amount - 1:
                 current_player = 0
             else:
@@ -301,9 +310,41 @@ while run:
             current_player_amount -= 1
             if current_player > current_player_amount - 1:
                 current_player -= 1
+
+            if len(players_data) == 1:
+                clear()
+                drawline()
+                print(players_data[current_player][1], "is the only one left")
+                print(players_data[current_player][1], "HAS WON!")
+                drawline()
+                input("> ")
+                game = False
+                new_game_menu = True
+                players_data = []
         else:
             clear()
             drawline()
             print("False input please enter 0, 1 or 2")
+            drawline()
+            input("> ")
+
+    while new_game_menu:
+        clear()
+        drawline()
+        print("            GANZENBORD")
+        drawline()
+        print("0 - Quit Game")
+        print("1 - Start New Game")
+        drawline()
+        dest = input("# ")
+        if dest == "0":
+            quit()
+        elif dest == "1":
+            new_game_menu = False
+            settings_menu = True
+        else:
+            clear()
+            drawline()
+            print("False input please enter 0 or 1")
             drawline()
             input("> ")
