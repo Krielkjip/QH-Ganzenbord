@@ -1,5 +1,4 @@
 from functions import *
-import random
 
 run = True
 main_menu = True
@@ -59,82 +58,15 @@ while run:
 
     current_player_amount = players_amount
     while game:
-        print(players_data)
-        clear()
-        drawlinelong()
-        draw_board(tiles_amount, players_data)
-        drawlinelong()
-        print("Current player:", players_data[current_player][1])
-        drawline()
-        print("0 - Quit Game")
-        print("1 - Roll dice")
-        print("2 - Give up")
+        dest = game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble)
 
-        drawline()
-        dest = input("# ")
-
-        if dest == "0":
+        if dest[0]:
             game = False
-            main_menu = True
+            new_game_menu = True
             players_data = []
-        elif dest == "1":
-            if double_trouble:
-                game_over = double_trouble_roll_dice(players_data, current_player, tiles_amount)
-            else:
-                game_over = roll_dice(players_data, current_player, tiles_amount)
-            print(game_over)
-            if game_over == 1:
-                game = False
-                new_game_menu = True
-                players_data = []
-            elif game_over == 2:
-                del players_data[current_player]
-                current_player -= 1
-                current_player_amount -= 1
-                if current_player > current_player_amount - 1:
-                    current_player = 0
-
-                if not players_data:
-                    clear()
-                    drawline()
-                    print("Game Over")
-                    print("All players have been disqualified")
-                    drawline()
-                    input("> ")
-                    game = False
-                    new_game_menu = True
-            if current_player >= current_player_amount - 1:
-                current_player = 0
-            else:
-                current_player += 1
-        elif dest == "2":
-            clear()
-            drawline()
-            print(players_data[current_player][1], "has given up")
-            print(players_data[current_player][1], "is out of the game")
-            drawline()
-            input("> ")
-            del players_data[current_player]
-            current_player_amount -= 1
-            if current_player > current_player_amount - 1:
-                current_player -= 1
-
-            if len(players_data) == 1:
-                clear()
-                drawline()
-                print(players_data[current_player][1], "is the only one left")
-                print(players_data[current_player][1], "HAS WON!")
-                drawline()
-                input("> ")
-                game = False
-                new_game_menu = True
-                players_data = []
         else:
-            clear()
-            drawline()
-            print("False input please enter 0, 1 or 2")
-            drawline()
-            input("> ")
+            current_player = dest[1]
+            current_player_amount = dest[2]
 
     while new_game_menu:
         dest = new_game_menu_run()

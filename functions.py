@@ -338,3 +338,73 @@ def create_player_list_data(amount, tiles_amount):
                             invalid_input_message("Please enter a number")
                 break
     return player_data
+
+
+def game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble):
+    print(players_data)
+    clear()
+    drawlinelong()
+    draw_board(tiles_amount, players_data)
+    drawlinelong()
+    print("Current player:", players_data[current_player][1])
+    drawline()
+    print("0 - Quit Game")
+    print("1 - Roll dice")
+    print("2 - Give up")
+
+    drawline()
+    dest_fun = input("# ")
+
+    if dest_fun == "0":
+        return True, current_player, current_player_amount
+    elif dest_fun == "1":
+        if double_trouble:
+            game_over = double_trouble_roll_dice(players_data, current_player, tiles_amount)
+        else:
+            game_over = roll_dice(players_data, current_player, tiles_amount)
+        print(game_over)
+        if game_over == 1:
+            return True, current_player, current_player_amount
+        elif game_over == 2:
+            del players_data[current_player]
+            current_player -= 1
+            current_player_amount -= 1
+            if current_player > current_player_amount - 1:
+                current_player = 0
+
+            if not players_data:
+                clear()
+                drawline()
+                print("Game Over")
+                print("All players have been disqualified")
+                drawline()
+                input("> ")
+                return True, current_player, current_player_amount
+        if current_player >= current_player_amount - 1:
+            current_player = 0
+        else:
+            current_player += 1
+    elif dest_fun == "2":
+        clear()
+        drawline()
+        print(players_data[current_player][1], "has given up")
+        print(players_data[current_player][1], "is out of the game")
+        drawline()
+        input("> ")
+        del players_data[current_player]
+        current_player_amount -= 1
+        if current_player > current_player_amount - 1:
+            current_player -= 1
+
+        if len(players_data) == 1:
+            clear()
+            drawline()
+            print(players_data[current_player][1], "is the only one left")
+            print(players_data[current_player][1], "HAS WON!")
+            drawline()
+            input("> ")
+            return True
+    else:
+        invalid_input_message("Please enter 0, 1 or 2")
+
+    return False, current_player, current_player_amount
