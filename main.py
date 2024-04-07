@@ -15,23 +15,11 @@ current_player = 0
 
 while run:
     while main_menu:
-        clear()
-        draw_title()
-        print("0 - Quit Game")
-        print("1 - Start Game")
-        drawline()
-        dest = input("# ")
-        if dest == "0":
-            quit()
-        elif dest == "1":
+        dest = main_menu_run()
+
+        if dest:
             main_menu = False
             settings_menu = True
-        else:
-            clear()
-            drawline()
-            print("False input please enter 0 or 1")
-            drawline()
-            input("> ")
 
     while settings_menu:
         clear()
@@ -40,16 +28,13 @@ while run:
         drawline()
         print("Current amount of players:", players_amount)
         print("Current amount of tiles", tiles_amount)
-        if double_trouble:
-            print("Double Trouble in turned on")
-        else:
-            print("Double Trouble is turned off")
+        print("Double Trouble is", "on" if double_trouble else "off")
         drawline()
         print("0 - Back to main menu")
         print("1 - Start Game")
         print("2 - Change amount of players")
         print("3 - Change amount of tiles")
-        print("4 - Double Trouble on <-> off")
+        print("4 - Toggle Double Trouble")
         drawline()
         dest = input("# ")
 
@@ -57,145 +42,20 @@ while run:
             settings_menu = False
             main_menu = True
         elif dest == "1":
+            players_data = create_player_list_data(players_amount, tiles_amount)
             settings_menu = False
             game = True
-            # player_data = create_player_list_data(players_amount)
-            i = 0
-            while i < players_amount:
-                correct_name = True
-                clear()
-                drawline()
-                print("Enter player", i + 1, "name")
-                print("Max amount off characters is 8")
-                drawline()
-                name = input("# ")
-                if name == "":
-                    clear()
-                    drawline()
-                    print("Please enter something")
-                    drawline()
-                    input("> ")
-                else:
-                    if len(name) > 8:
-                        clear()
-                        drawline()
-                        print("Name must be less than 8 characters")
-                        drawline()
-                        input("> ")
-                    else:
-                        for item in players_data:
-                            if item[1] == name:
-                                clear()
-                                drawline()
-                                print("That name is already in use")
-                                drawline()
-                                input("> ")
-                                correct_name = False
-                        if correct_name:
-                            while True:
-                                clear()
-                                drawline()
-                                print(name, "enter your lucky number")
-                                print("Lucky number must be higher than 1 and less than", tiles_amount)
-                                drawline()
-                                dest = input("# ")
-                                try:
-                                    lucky_number = int(dest)
-                                    if lucky_number <= 1 or lucky_number >= tiles_amount:
-                                        clear()
-                                        drawline()
-                                        print("Lucky number must be higher than 1 and less than", tiles_amount)
-                                        drawline()
-                                        input("> ")
-                                    else:
-                                        i += 1
-                                        players_data.append([1, name, lucky_number])
-                                        print(players_data)
-                                        break
-                                except ValueError:
-                                    clear()
-                                    drawline()
-                                    print("Please enter a number")
-                                    drawline()
-                                    input("> ")
-            print(players_data)
-
         elif dest == "2":
-            while True:
-                clear()
-                drawline()
-                print("Minium amount of players is 2")
-                drawline()
-                dest = input("# ")
-                try:
-                    number = int(dest)
-                    if number < 2:
-                        clear()
-                        drawline()
-                        print("Minimum amount of players is 2")
-                        drawline()
-                        input("> ")
-                    else:
-                        players_amount = number
-                        break
-                except ValueError:
-                    clear()
-                    drawline()
-                    print("Please enter a number")
-                    drawline()
-                    input("> ")
+            players_amount = update_players_amount()
         elif dest == "3":
-            while True:
-                clear()
-                drawline()
-                print("Minium amount of tiles 10")
-                drawline()
-                dest = input("# ")
-                try:
-                    number = int(dest)
-                    if number < 10:
-                        clear()
-                        drawline()
-                        print("Amount of tiles must be at least 10")
-                        drawline()
-                        input("> ")
-                    else:
-                        tiles_amount = number
-                        break
-                except ValueError:
-                    clear()
-                    drawline()
-                    print("Please enter a number")
-                    drawline()
-                    input("> ")
+            tiles_amount = update_tiles_amount()
         elif dest == "4":
-            while True:
-                clear()
-                drawline()
-                print("1 - Turn Double Trouble on")
-                print("2 - Turn Double Trouble off")
-                drawline()
-                dest = input("# ")
-
-                if dest == "1":
-                    double_trouble = True
-                    break
-                elif dest == "2":
-                    double_trouble = False
-                    break
-                else:
-                    clear()
-                    drawline()
-                    print("Please enter 1 or 2")
-                    drawline()
-                    input("> ")
-
+            if double_trouble:
+                double_trouble = False
+            else:
+                double_trouble = True
         else:
-            clear()
-            drawline()
-            print("False input please enter 0, 1, 2, 3 or 4")
-            drawline()
-            input("> ")
+            invalid_input_message("False input please enter 0, 1, 2, 3 or 4")
 
     current_player_amount = players_amount
     while game:
@@ -277,20 +137,8 @@ while run:
             input("> ")
 
     while new_game_menu:
-        clear()
-        draw_title()
-        print("0 - Quit Game")
-        print("1 - Start New Game")
-        drawline()
-        dest = input("# ")
-        if dest == "0":
-            quit()
-        elif dest == "1":
+        dest = new_game_menu_run()
+
+        if dest:
             new_game_menu = False
             settings_menu = True
-        else:
-            clear()
-            drawline()
-            print("False input please enter 0 or 1")
-            drawline()
-            input("> ")

@@ -214,3 +214,127 @@ def double_trouble_roll_dice(players_data, current_player, tiles_amount):
             return 1
         else:
             return 0
+
+
+def main_menu_run():
+    while True:
+        clear()
+        draw_title()
+        print("0 - Quit Game")
+        print("1 - Start Game")
+        drawline()
+        dest_fun = input("# ")
+        if dest_fun == "0":
+            quit()
+        elif dest_fun == "1":
+            return True
+        else:
+            clear()
+            drawline()
+            print("False input please enter 0 or 1")
+            drawline()
+            input("> ")
+
+
+def new_game_menu_run():
+    while True:
+        clear()
+        draw_title()
+        print("0 - Quit Game")
+        print("1 - Start New Game")
+        drawline()
+        dest_fun = input("# ")
+        if dest_fun == "0":
+            quit()
+        elif dest_fun == "1":
+            return True
+        else:
+            clear()
+            drawline()
+            print("False input please enter 0 or 1")
+            drawline()
+            input("> ")
+
+
+def update_players_amount():
+    while True:
+        clear()
+        drawline()
+        print("Minimum amount of players is 2")
+        drawline()
+        dest = input("# ")
+        try:
+            number = int(dest)
+            if number < 2:
+                invalid_input_message("Minimum amount of players is 2")
+            else:
+                return number
+        except ValueError:
+            invalid_input_message("Please enter a number")
+
+
+def update_tiles_amount():
+    while True:
+        clear()
+        drawline()
+        print("Minimum amount of tiles is 10")
+        drawline()
+        dest = input("# ")
+        try:
+            number = int(dest)
+            if number < 10:
+                invalid_input_message("Minimum amount of tiles is 10")
+            else:
+                return number
+        except ValueError:
+            invalid_input_message("Please enter a number")
+
+
+def invalid_input_message(message):
+    clear()
+    drawline()
+    print("False input please enter a valid option")
+    print(message)
+    drawline()
+    input("> ")
+
+
+def create_player_list_data(amount, tiles_amount):
+    player_data = []
+    for i in range(amount):
+        correct_name = True
+        while True:
+            clear()
+            drawline()
+            print("Enter player", i + 1, "name")
+            print("Max amount of characters is 8")
+            drawline()
+            name = input("# ")
+            if name == "":
+                invalid_input_message("Please enter something")
+            elif len(name) > 8:
+                invalid_input_message("Name must be less than 8 characters")
+            else:
+                if any(item[1] == name for item in player_data):
+                    invalid_input_message("That name is already in use")
+                    correct_name = False
+                if correct_name:
+                    while True:
+                        clear()
+                        drawline()
+                        print(name, "enter your lucky number")
+                        print("Lucky number must be higher than 1 and less than", tiles_amount)
+                        drawline()
+                        dest = input("# ")
+                        try:
+                            lucky_number = int(dest)
+                            if lucky_number <= 1 or lucky_number >= tiles_amount:
+                                invalid_input_message(
+                                    f"Lucky number must be higher than 1 and less than {tiles_amount}")
+                            else:
+                                player_data.append([1, name, lucky_number])
+                                break
+                        except ValueError:
+                            invalid_input_message("Please enter a number")
+                break
+    return player_data
