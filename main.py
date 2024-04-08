@@ -11,7 +11,7 @@ tiles_amount = 63
 players_amount = 2
 players_data = []
 current_player = 0
-well_loc = 54
+well_loc = 0
 
 while run:
     while main_menu:
@@ -43,6 +43,7 @@ while run:
             main_menu = True
         elif dest == "1":
             players_data = create_player_list_data(players_amount, tiles_amount)
+            well_loc = random.randint(2, tiles_amount - 1)
             settings_menu = False
             game = True
         elif dest == "2":

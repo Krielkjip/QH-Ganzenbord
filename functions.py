@@ -185,7 +185,6 @@ def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_lo
     dice_roll1 = random.randint(1, 6)
     dice_roll2 = random.randint(1, 6)
     dice_total = dice_roll1 + dice_roll2
-    dice_total = 6
     next_loc = players_data[current_player][0] + dice_total
     current_player_lucky_number = players_data[current_player][2]
     if players_data[current_player][3]:
