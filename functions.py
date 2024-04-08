@@ -83,6 +83,33 @@ def draw_board(tiles_amount, players_data, put_loc):
         print("")
 
 
+def well_logic(players_data, current_player):
+    x = 0
+    for item in players_data:
+        if item[3]:
+            clear()
+            drawline()
+            print(players_data[current_player][1], "landed in the well")
+            print(players_data[x][1], "was already in the well")
+            print(players_data[x][1], "got pushed out of the well by", players_data[current_player][1])
+            print(players_data[current_player][1], "got stuck in the well")
+            drawline()
+            input("> ")
+            print(x)
+            players_data[x][3] = False
+            players_data[current_player][3] = True
+            return
+        x += 1
+
+    clear()
+    drawline()
+    print(players_data[current_player][1], "landed in the well")
+    print(players_data[current_player][1], "got stuck in the well")
+    drawline()
+    input("> ")
+    players_data[current_player][3] = True
+
+
 def roll_dice(players_data, current_player, tiles_amount, well_loc):
     dice_roll = random.randint(1, 6)
     next_loc = players_data[current_player][0] + dice_roll
@@ -152,33 +179,6 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc):
             if players_data[current_player][0] == well_loc:
                 well_logic(players_data, current_player)
             return 0
-
-
-def well_logic(players_data, current_player):
-    x = 0
-    for item in players_data:
-        if item[3]:
-            clear()
-            drawline()
-            print(players_data[current_player][1], "landed in the well")
-            print(players_data[x][1], "was already in the well")
-            print(players_data[x][1], "got pushed out of the well by", players_data[current_player][1])
-            print(players_data[current_player][1], "got stuck in the well")
-            drawline()
-            input("> ")
-            print(x)
-            players_data[x][3] = False
-            players_data[current_player][3] = True
-            return
-        x += 1
-
-    clear()
-    drawline()
-    print(players_data[current_player][1], "landed in the well")
-    print(players_data[current_player][1], "got stuck in the well")
-    drawline()
-    input("> ")
-    players_data[current_player][3] = True
 
 
 def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_loc):
@@ -277,11 +277,7 @@ def main_menu_run():
         elif dest_fun == "1":
             return True
         else:
-            clear()
-            drawline()
-            print("False input please enter 0 or 1")
-            drawline()
-            input("> ")
+            invalid_input_message("Please enter 0 or 1")
 
 
 def new_game_menu_run():
@@ -297,11 +293,7 @@ def new_game_menu_run():
         elif dest_fun == "1":
             return True
         else:
-            clear()
-            drawline()
-            print("False input please enter 0 or 1")
-            drawline()
-            input("> ")
+            invalid_input_message("Please enter 0 or 1")
 
 
 def update_players_amount():
@@ -460,7 +452,7 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
             print(players_data[current_player][1], "HAS WON!")
             drawline()
             input("> ")
-            return True
+            return True, current_player, current_player_amount
     else:
         invalid_input_message("Please enter 0, 1 or 2")
 

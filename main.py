@@ -56,7 +56,7 @@ while run:
             else:
                 double_trouble = True
         else:
-            invalid_input_message("False input please enter 0, 1, 2, 3 or 4")
+            invalid_input_message("Please enter 0, 1, 2, 3 or 4")
 
     current_player_amount = players_amount
     while game:
