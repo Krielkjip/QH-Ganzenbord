@@ -11,6 +11,7 @@ tiles_amount = 63
 players_amount = 2
 players_data = []
 current_player = 0
+well_loc = 54
 
 while run:
     while main_menu:
@@ -58,7 +59,7 @@ while run:
 
     current_player_amount = players_amount
     while game:
-        dest = game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble)
+        dest = game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc)
 
         if dest[0]:
             game = False

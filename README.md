@@ -15,7 +15,7 @@
 
 ## Uitbreidingen:
 
-- [ ] In de put op vakje ...
+- [x] In de put op vakje ...
 - [ ] De doornstruik op vakje ... (gaat terug naar ...)
 - [x] Double trouble
 - [ ] Marathon
