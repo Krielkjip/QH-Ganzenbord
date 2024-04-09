@@ -13,7 +13,7 @@ def draw_title():
     print(r"Xx--------------------------------------------------------xX")
 
 
-def drawdice():
+def draw_dice():
     print(r"   ________    ")
     print(r"  /\       \   ")
     print(r" /()\   ()  \  ")
@@ -23,7 +23,7 @@ def drawdice():
     print(r"  \/_____()/   ")
 
 
-def draw2dice():
+def draw2_dice():
     print(r"   ________        ________    ")
     print(r"  /\       \      /\       \   ")
     print(r" /()\   ()  \    /()\   ()  \  ")
@@ -37,7 +37,7 @@ def drawline():
     print("Xx----------------------------------------xX")
 
 
-def drawlinelong():
+def drawline_long():
     print(
         "Xx---------------------------------------------------------------------------------------------------------xX")
 
@@ -126,7 +126,7 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
     else:
         if next_loc > tiles_amount:
             clear()
-            drawdice()
+            draw_dice()
             drawline()
             print(players_data[current_player][1], "rolled a dice")
             print(players_data[current_player][1], "rolled", dice_roll)
@@ -138,7 +138,7 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
             players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
         else:
             clear()
-            drawdice()
+            draw_dice()
             drawline()
             print(players_data[current_player][1], "rolled a dice")
             print(players_data[current_player][1], "rolled", dice_roll)
@@ -211,7 +211,7 @@ def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_lo
     else:
         if dice_roll1 == dice_roll2:
             clear()
-            draw2dice()
+            draw2_dice()
             drawline()
             print(players_data[current_player][1], "rolled 2 dices")
             print("Both Dices rolled", dice_roll1)
@@ -222,7 +222,7 @@ def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_lo
         else:
             if next_loc > tiles_amount:
                 clear()
-                draw2dice()
+                draw2_dice()
                 drawline()
                 print(players_data[current_player][1], "rolled 2 dices")
                 print(players_data[current_player][1], "rolled", dice_roll1, "and", dice_roll2)
@@ -234,7 +234,7 @@ def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_lo
                 players_data[current_player][0] = tiles_amount - next_loc % tiles_amount
             else:
                 clear()
-                draw2dice()
+                draw2_dice()
                 drawline()
                 print(players_data[current_player][1], "rolled 2 dices")
                 print(players_data[current_player][1], "rolled", dice_roll1, "and", dice_roll2)
@@ -411,9 +411,9 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
              thorn_bush_loc):
     print(players_data)
     clear()
-    drawlinelong()
+    drawline_long()
     draw_board(tiles_amount, players_data, well_loc, thorn_bush_loc)
-    drawlinelong()
+    drawline_long()
     print("Current player:", players_data[current_player][1])
     drawline()
     print("0 - Quit Game")
