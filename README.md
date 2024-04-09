@@ -1,23 +1,28 @@
-# Ganzenbord Todo Lijst
+# QH-Ganzenbord
 
-# vraag geluksgetal player input ook goed als random
+Dit is ganzenbord in Python waarbij spelers zich door tegels navigeren en obstakels tegenkomen zoals doornstruiken
+en putten.
 
-## Basisvariant
+## Aan de slag
 
-- [x] Maak een bord met 63 vakjes.
-- [x] Implementeer het spel voor twee spelers.
-- [x] Spelers rollen om beurten de dobbelsteen.
-- [x] Controleer of de invoer geldig is (alleen "rol" of "opgeven" toegestaan).
-- [x] Bereken de stappen en update de positie van de speler.
-- [x] Controleer of een speler op geluksgetal staat en laat deze nogmaals rollen.
-- [x] Bepaal de winnaar en kondig deze aan.
-- [x] Vraag de gebruiker of deze opnieuw wil spelen of het programma wil sluiten.
+Om het spel te draaien, heb je Python geïnstalleerd op je systeem nodig.
 
-## Uitbreidingen:
+1. Kloon deze repository naar je lokale machine.
+2. Navigeer naar de projectdirectory in je terminal.
+3. Voer `python main.py` uit in je terminal om het spel te starten.
 
-- [x] In de put op vakje ...
-- [x] De doornstruik op vakje ... (gaat terug naar ...)
-- [x] Double trouble
-- [x] Marathon
-- [x] Meer vreugd
+## Controles
 
+    # = Choice input
+    > = Empty input
+
+## Bestandsstructuur
+
+- `main.py`: Bevat de hoofdgame-lus en menu's.
+- `functions.py`: Bevat functies voor spellogica.
+- `tiles_logic.py`: Bevat logica voor gebeurtenissen met betrekking tot tegels.
+- `draw_functions.py`: Bevat functies voor het tekenen van elementen in het spel.
+
+## Credits
+
+Dit spel is gemaakt door Onno te Voortwis.
