@@ -12,6 +12,7 @@ players_amount = 2
 players_data = []
 current_player = 0
 well_loc = 0
+thorn_bush_loc = 0
 
 while run:
     while main_menu:
@@ -43,7 +44,14 @@ while run:
             main_menu = True
         elif dest == "1":
             players_data = create_player_list_data(players_amount, tiles_amount)
-            well_loc = random.randint(2, tiles_amount - 1)
+            while True:
+                well_loc = random.randint(2, tiles_amount - 1)
+                thorn_bush_loc = random.randint(9, tiles_amount - 1)
+                if well_loc == thorn_bush_loc:
+                    well_loc = random.randint(2, tiles_amount - 1)
+                    thorn_bush_loc = random.randint(9, tiles_amount - 1)
+                else:
+                    break
             settings_menu = False
             game = True
         elif dest == "2":
@@ -60,7 +68,8 @@ while run:
 
     current_player_amount = players_amount
     while game:
-        dest = game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc)
+        dest = game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc,
+                        thorn_bush_loc)
 
         if dest[0]:
             game = False

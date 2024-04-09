@@ -70,12 +70,15 @@ def clear():
 #         print()
 
 
-def draw_board(tiles_amount, players_data, put_loc):
+def draw_board(tiles_amount, players_data, put_loc, thorn_bush_loc):
     y = len(str(tiles_amount))
     for x in range(1, tiles_amount + 1):
         print(f"{x:{y}}", end=": ")
         if x == put_loc:
             print("(Well)", end=" ")
+        if x == thorn_bush_loc:
+            print("(Thorn Bush)", end=" ")
+
         for player in players_data:
             if player[0] == x:
                 print(player[1], end=" ")
@@ -110,7 +113,7 @@ def well_logic(players_data, current_player):
     players_data[current_player][3] = True
 
 
-def roll_dice(players_data, current_player, tiles_amount, well_loc):
+def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc):
     dice_roll = random.randint(1, 6)
     next_loc = players_data[current_player][0] + dice_roll
     current_player_lucky_number = players_data[current_player][2]
@@ -168,6 +171,18 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc):
                 input("> ")
                 players_data[current_player][0] += dice_roll
 
+        if players_data[current_player][0] == thorn_bush_loc:
+            number = random.randint(5, 7)
+            clear()
+            drawline()
+            print(players_data[current_player][1], "landed on the thorn bush")
+            print(players_data[current_player][1], "got thrown back", number, "tiles")
+            print(players_data[current_player][1], "moved from", players_data[current_player][0], "to",
+                  players_data[current_player][0] - number)
+            drawline()
+            input("> ")
+            players_data[current_player][0] -= number
+
         if next_loc == tiles_amount:
             clear()
             drawline()
@@ -181,7 +196,7 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc):
             return 0
 
 
-def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_loc):
+def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc):
     dice_roll1 = random.randint(1, 6)
     dice_roll2 = random.randint(1, 6)
     dice_total = dice_roll1 + dice_roll2
@@ -250,6 +265,18 @@ def double_trouble_roll_dice(players_data, current_player, tiles_amount, well_lo
                     drawline()
                     input("> ")
                     players_data[current_player][0] += dice_total
+
+            if players_data[current_player][0] == thorn_bush_loc:
+                number = random.randint(5, 7)
+                clear()
+                drawline()
+                print(players_data[current_player][1], "landed on the thorn bush")
+                print(players_data[current_player][1], "got thrown back", number, "tiles")
+                print(players_data[current_player][1], "moved from", players_data[current_player][0], "to",
+                      players_data[current_player][0] - number)
+                drawline()
+                input("> ")
+                players_data[current_player][0] -= number
 
             if next_loc == tiles_amount:
                 clear()
@@ -380,11 +407,12 @@ def create_player_list_data(amount, tiles_amount):
     return player_data
 
 
-def game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc):
+def game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc,
+             thorn_bush_loc):
     print(players_data)
     clear()
     drawlinelong()
-    draw_board(tiles_amount, players_data, well_loc)
+    draw_board(tiles_amount, players_data, well_loc, thorn_bush_loc)
     drawlinelong()
     print("Current player:", players_data[current_player][1])
     drawline()
@@ -399,28 +427,30 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
         return True, current_player, current_player_amount
     elif dest_fun == "1":
         if double_trouble:
-            game_over = double_trouble_roll_dice(players_data, current_player, tiles_amount, well_loc)
+            game_over = double_trouble_roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc)
         else:
-            game_over = roll_dice(players_data, current_player, tiles_amount, well_loc)
+            game_over = roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc)
         print(game_over)
+
+        if current_player > current_player_amount - 1:
+            current_player = 0
+        if len(players_data) == 1:
+            if players_data[current_player][3]:
+                clear()
+                drawline()
+                print("All players have been disqualified except", players_data[current_player][1])
+                print("But", players_data[current_player][1], "is stuck in a well")
+                print("Game Over")
+                drawline()
+                input("> ")
+                return True, current_player, current_player_amount
+
         if game_over == 1:
             return True, current_player, current_player_amount
         elif game_over == 2:
             del players_data[current_player]
             current_player -= 1
             current_player_amount -= 1
-            if current_player > current_player_amount - 1:
-                current_player = 0
-            if len(players_data) == 1:
-                if players_data[current_player][3]:
-                    clear()
-                    drawline()
-                    print("All players have been disqualified except", players_data[current_player][1])
-                    print("But", players_data[current_player][1], "is stuck in a well")
-                    print("Game Over")
-                    drawline()
-                    input("> ")
-                    return True, current_player, current_player_amount
             if not players_data:
                 clear()
                 drawline()

@@ -16,8 +16,8 @@
 ## Uitbreidingen:
 
 - [x] In de put op vakje ...
-- [ ] De doornstruik op vakje ... (gaat terug naar ...)
+- [x] De doornstruik op vakje ... (gaat terug naar ...)
 - [x] Double trouble
-- [ ] Marathon
-- [ ] Meer vreugd
+- [x] Marathon
+- [x] Meer vreugd
 
