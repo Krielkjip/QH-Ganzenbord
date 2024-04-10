@@ -3,6 +3,7 @@ from tiles_logic import well_logic, thorn_bush_logic
 import random
 
 
+# Function that draws Settings Menu
 def draw_settings_menu(players_amount, tiles_amount, double_trouble):
     clear()
     drawline()
@@ -20,33 +21,46 @@ def draw_settings_menu(players_amount, tiles_amount, double_trouble):
     drawline()
 
 
+# Function that draws the game board
 def draw_board(tiles_amount, players_data, put_loc, thorn_bush_loc):
+    # Calculate how long the longest number in the board is so they all get printed with the same length
     y = len(str(tiles_amount))
+    # Loop for all tiles
     for x in range(1, tiles_amount + 1):
+        # Print the Tile with the correct amount of space before it
         print(f"{x:{y}}", end=": ")
+        # Check in there is a special tile on current printed tile and print it
         if x == put_loc:
             print("(Well)", end=" ")
         if x == thorn_bush_loc:
             print("(Thorn Bush)", end=" ")
 
+        # Check if there is a player in the current printed tile and print their name
         for player in players_data:
             if player[0] == x:
                 print(player[1], end=" ")
 
+        # Move to the next line
         print("")
 
 
+# Function to roll the dice/dices and change the location of the player and status of player
 def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc, double_trouble):
+    # Roll dices
     dice_roll1 = random.randint(1, 6)
     dice_roll2 = random.randint(1, 6)
+    # Check if it is a double trouble roll
     if double_trouble:
         dice_total = dice_roll1 + dice_roll2
     else:
         dice_total = dice_roll1
 
+    # Calculate the next location based on the dice roll
     next_loc = players_data[current_player][0] + dice_total
+    # Get player lucky number
     current_player_lucky_number = players_data[current_player][2]
 
+    # If player is stuck in well print message and end move
     if players_data[current_player][3]:
         clear()
         drawline()
@@ -54,7 +68,9 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
         drawline()
         input("> ")
     else:
+        # Check for double trouble
         if double_trouble:
+            # If both dices rolled the same disqualify player
             if dice_roll1 == dice_roll2:
                 clear()
                 draw2_dice()
@@ -66,6 +82,7 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
                 input("> ")
                 return 2
 
+        # Check if player moved out of map and move player back in the board
         if next_loc > tiles_amount:
             clear()
             draw_dice() if not double_trouble else draw2_dice()
@@ -91,6 +108,7 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
             input("> ")
             players_data[current_player][0] += dice_total
 
+        # Check if player landed on their lucky number and move them the same number of tiles again
         if players_data[current_player][0] == current_player_lucky_number:
             next_loc = players_data[current_player][0] + dice_total
             if next_loc > tiles_amount:
@@ -115,9 +133,11 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
                 input("> ")
                 players_data[current_player][0] += dice_total
 
+        # Check if player landed on the thorn bush
         if players_data[current_player][0] == thorn_bush_loc:
             thorn_bush_logic(players_data, current_player)
 
+        # Check if player reached the end of the board and print player won
         if next_loc == tiles_amount:
             clear()
             drawline()
@@ -126,11 +146,13 @@ def roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_l
             input("> ")
             return 1
         else:
+            # Check if player landed on the well
             if players_data[current_player][0] == well_loc:
                 well_logic(players_data, current_player)
             return 0
 
 
+# Function that displays main menu and asks for a user input
 def main_menu_run():
     while True:
         clear()
@@ -147,6 +169,7 @@ def main_menu_run():
             invalid_input_message("Please enter 0 or 1")
 
 
+# Function that displays the new game menu and asks for a user input
 def new_game_menu_run():
     while True:
         clear()
@@ -163,6 +186,7 @@ def new_game_menu_run():
             invalid_input_message("Please enter 0 or 1")
 
 
+# Update the number of players and check if the number of players is at least 2
 def update_players_amount():
     while True:
         clear()
@@ -180,6 +204,7 @@ def update_players_amount():
             invalid_input_message("Please enter a number")
 
 
+# Update the number of tiles and check if the number of tiles is at least 10
 def update_tiles_amount():
     while True:
         clear()
@@ -197,6 +222,7 @@ def update_tiles_amount():
             invalid_input_message("Please enter a number")
 
 
+# Function that prints the invalid input message
 def invalid_input_message(message):
     clear()
     drawline()
@@ -206,10 +232,14 @@ def invalid_input_message(message):
     input("> ")
 
 
+# Function that creates the player list with curren tile, name, lucky number, in well true/false
 def create_player_list_data(amount, tiles_amount):
+    # Create empty list
     player_data = []
+    # Loop trough each player
     for i in range(amount):
         correct_name = True
+        # Input name
         while True:
             clear()
             drawline()
@@ -217,6 +247,7 @@ def create_player_list_data(amount, tiles_amount):
             print("Max amount of characters is 8")
             drawline()
             name = input("# ")
+            # Check if name is something and is less than 8 characters and isn't already used
             if name == "":
                 invalid_input_message("Please enter something")
             elif len(name) > 8:
@@ -226,6 +257,7 @@ def create_player_list_data(amount, tiles_amount):
                     invalid_input_message("That name is already in use")
                     correct_name = False
                 if correct_name:
+                    # Input lucky number
                     while True:
                         clear()
                         drawline()
@@ -233,6 +265,7 @@ def create_player_list_data(amount, tiles_amount):
                         print("Lucky number must be higher than 1 and less than", tiles_amount)
                         drawline()
                         user_input_fun = input("# ")
+                        # Check if Lucky number is more that 1 and less than amount of tiles - 1
                         try:
                             lucky_number = int(user_input_fun)
                             if lucky_number <= 1 or lucky_number >= tiles_amount:
@@ -247,9 +280,11 @@ def create_player_list_data(amount, tiles_amount):
     return player_data
 
 
+# Main game function
 def game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc,
              thorn_bush_loc):
     print(players_data)
+    # Print curren player name and possible inputs
     clear()
     drawline_long()
     draw_board(tiles_amount, players_data, well_loc, thorn_bush_loc)
@@ -263,19 +298,25 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
     drawline()
     user_input_fun = input("# ")
 
+    # If user wants to quit the game
     if user_input_fun == "0":
         return True, current_player, current_player_amount
+    # If user wants to roll the dice
     elif user_input_fun == "1":
+        # Check if double trouble is turned so that 2 dices are rolled when turned on
         if double_trouble:
             game_over = roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc, True)
         else:
             game_over = roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc, False)
         print(game_over)
 
+        # If last player in list has just rolled dice change current player to first in list
         if current_player > current_player_amount - 1:
             current_player = 0
+        # If there is one player left and that player is stuck in a well
         if len(players_data) == 1:
             if players_data[current_player][3]:
+                # Print game over
                 clear()
                 drawline()
                 print("All players have been disqualified except", players_data[current_player][1])
@@ -285,6 +326,7 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
                 input("> ")
                 return True, current_player, current_player_amount
 
+        # If game over is True
         if game_over == 1:
             return True, current_player, current_player_amount
         elif game_over == 2:
@@ -299,23 +341,30 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
                 drawline()
                 input("> ")
                 return True, current_player, current_player_amount
+
+        # Change current player to next player
         if current_player >= current_player_amount - 1:
             current_player = 0
         else:
             current_player += 1
+    # If user gives up
     elif user_input_fun == "2":
+        # Print message player has given up
         clear()
         drawline()
         print(players_data[current_player][1], "has given up")
         print(players_data[current_player][1], "is out of the game")
         drawline()
         input("> ")
+        # Remove player that gave up from players_data list
         del players_data[current_player]
         current_player_amount -= 1
         if current_player > current_player_amount - 1:
             current_player -= 1
 
+        # If there is 1 player left
         if len(players_data) == 1:
+            # Print win message
             clear()
             drawline()
             print(players_data[current_player][1], "is the only one left")
@@ -324,7 +373,9 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
             input("> ")
             return True, current_player, current_player_amount
 
+        # If the last player gave up
         if not len(players_data):
+            # Print game over message
             clear()
             drawline()
             print("The last player was done with the game and gave up")

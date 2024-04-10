@@ -1,6 +1,7 @@
 import os
 
 
+# Function that draws the games title
 def draw_title():
     print(r"Xx--------------------------------------------------------xX")
     print(r"x   _____                           _                   _  x")
@@ -12,6 +13,7 @@ def draw_title():
     print(r"Xx--------------------------------------------------------xX")
 
 
+# Function that draws 1 dice
 def draw_dice():
     print(r"   ________    ")
     print(r"  /\       \   ")
@@ -22,6 +24,7 @@ def draw_dice():
     print(r"  \/_____()/   ")
 
 
+# Function that draws 2 dices
 def draw2_dice():
     print(r"   ________        ________    ")
     print(r"  /\       \      /\       \   ")
@@ -32,14 +35,17 @@ def draw2_dice():
     print(r"  \/_____()/      \/_____()/   ")
 
 
+# Function that draws a short line
 def drawline():
     print("Xx----------------------------------------xX")
 
 
+# Function that draws a long line
 def drawline_long():
     print(
         "Xx---------------------------------------------------------------------------------------------------------xX")
 
 
+# Function that clears the screen
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
