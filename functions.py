@@ -23,7 +23,7 @@ def draw_settings_menu(players_amount, tiles_amount, double_trouble):
 
 # Function that draws the game board
 def draw_board(tiles_amount, players_data, put_loc, thorn_bush_loc):
-    # Calculate how long the longest number in the board is so they all get printed with the same length
+    # Calculate how long the longest number in the board is, so they all get printed with the same length
     y = len(str(tiles_amount))
     # Loop for all tiles
     for x in range(1, tiles_amount + 1):
@@ -283,7 +283,6 @@ def create_player_list_data(amount, tiles_amount):
 # Main game function
 def game_run(players_data, current_player, current_player_amount, tiles_amount, double_trouble, well_loc,
              thorn_bush_loc):
-    print(players_data)
     # Print curren player name and possible inputs
     clear()
     drawline_long()
@@ -308,7 +307,6 @@ def game_run(players_data, current_player, current_player_amount, tiles_amount, 
             game_over = roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc, True)
         else:
             game_over = roll_dice(players_data, current_player, tiles_amount, well_loc, thorn_bush_loc, False)
-        print(game_over)
 
         # If last player in list has just rolled dice change current player to first in list
         if current_player > current_player_amount - 1:

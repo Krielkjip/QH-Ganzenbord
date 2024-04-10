@@ -31,7 +31,6 @@ def well_logic(players_data, current_player):
             print(players_data[current_player][1], "got stuck in the well")
             drawline()
             input("> ")
-            print(x)
             players_data[x][3] = False
             players_data[current_player][3] = True
             return
