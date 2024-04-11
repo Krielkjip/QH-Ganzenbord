@@ -33,7 +33,7 @@ def well_logic(players_data, current_player):
             input("> ")
             players_data[x][3] = False
             players_data[current_player][3] = True
-            players_data[current_player][0] += 1
+            players_data[x][0] += 1
             return
         x += 1
 
